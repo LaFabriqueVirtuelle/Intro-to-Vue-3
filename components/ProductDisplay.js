@@ -5,7 +5,7 @@ app.component('product-display', {
       required: true
     }
   },
-  template: 
+  template:
   /*html*/
   `<div class="product-display">
     <div class="product-container">
@@ -24,21 +24,28 @@ app.component('product-display', {
           <li v-for="detail in details">{{ detail }}</li>
         </ul>
 
-        <div 
-          v-for="(variant, index) in variants" 
-          :key="variant.id" 
-          @mouseover="updateVariant(index)" 
-          class="color-circle" 
+        <div
+          v-for="(variant, index) in variants"
+          :key="variant.id"
+          @mouseover="updateVariant(index)"
+          class="color-circle"
           :style="{ backgroundColor: variant.color }">
         </div>
-        
-        <button 
-          class="button" 
-          :class="{ disabledButton: !inStock }" 
-          :disabled="!inStock" 
-          v-on:click="addToCart">
+
+        <button
+          class="button"
+          :class="{ disabledButton: !inStock }"
+          :disabled="!inStock"
+          v-on:click="updateCart">
           Add to Cart
         </button>
+        <!-- <button
+          class="button"
+          :class="{ disabledButton: !inStock }"
+          :disabled="!inStock"
+          v-on:click="updateCart">
+          Remove from Cart
+        </button> -->
       </div>
     </div>
   </div>`,
@@ -55,8 +62,9 @@ app.component('product-display', {
     }
   },
   methods: {
-      addToCart() {
-          this.cart += 1
+      updateCart() {
+          this.$emit('update-cart',
+          this.variants[this.selectedVariant].id)
       },
       updateVariant(index) {
           this.selectedVariant = index
